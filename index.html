@@ -351,96 +351,76 @@
 <h3><span class="phone">+34 627 02 20 53</span></h3>
 </section>
 </div>
+
 <div class="col-md-6">
-<div class="contact-info">
-<!-- Formulario -->
-<form class="js-form" novalidate="novalidate" id="contact-form">
-   <div class="row">
-     <div class="form-group col-sm-6">
-       <input type="text" name="from_name" required placeholder="Name*" aria-required="true">
-     </div>
-     <div class="form-group col-sm-6">
-       <input type="email" name="from_email" required placeholder="Email*" id="email-input">
-     </div>
-     <div class="form-group col-sm-12">
-       <input type="text" name="subject" placeholder="Subject (Optional)">
-     </div>
-     <div class="form-group col-sm-12">
-       <textarea name="message" required placeholder="Message*"></textarea>
-     </div>
-     <div class="form-group form-group-message col-sm-12">
-       <span id="sending" class="text-primary" style="display:none;">Enviando mensaje...</span>
-       <span id="success" class="text-primary" style="display:none;">Thank you, your message is successfully sent!</span>
-       <span id="error" class="text-danger" style="display:none;">Sorry, something went wrong.</span>
-       <span id="email-error" class="text-danger" style="display:none;">Please enter a valid email address.</span>
-     </div>
-     <div class="col-sm-12">
-       <button type="submit" class="btn">Contact me</button>
-     </div>
-   </div>
- </form>
- 
- <!-- EmailJS script -->
- <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
- 
- <script>
-   // Inicializar EmailJS
-   emailjs.init("JI-JE_1ckuoN-hiqg"); // Reemplaza con tu Public Key
- 
-   document.getElementById('contact-form').addEventListener('submit',async function(event) {
-     event.preventDefault();  // Evitar recarga de página
- 
-     // Ocultar todos los mensajes al inicio
-     hideAllMessages();
- 
-     // Validar el formato del email
-     const emailInput = document.getElementById('email-input').value;
-     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Patrón básico para email
-     if (!emailPattern.test(emailInput)) {
-       document.getElementById('email-error').style.display = 'block';
-       return; // Detener el envío del formulario si el email no es válido
-     }
- 
-     // Mostrar "Enviando mensaje..."
-     document.getElementById('sending').style.display = 'block';
-     document.getElementById('error').style.display = 'none';
-     document.getElementById('success').style.display = 'none';
-     document.getElementById('email-error').style.display = 'none';
- 
-     // Enviar el formulario
-     emailjs.sendForm('PortaFolio', 'Template_Portafolio', this)
-       .then(function(response) {
-         console.log("Correo enviado exitosamente:", response);
-         
-         // Ocultar "Enviando" y mostrar éxito
-         document.getElementById('sending').style.display = 'none';
-         document.getElementById('success').style.display = 'block';
-         document.getElementById('error').style.display = 'none';
-         document.getElementById('email-error').style.display = 'none';
-         // Restablecer el formulario
-         document.getElementById('contact-form').reset();
-       }, function(error) {
-         console.error("Error al enviar el correo:", error);
-         
-         // Ocultar "Enviando" y mostrar error
-         document.getElementById('sending').style.display = 'none';
-         document.getElementById('error').style.display = 'block';
-         document.getElementById('success').style.display = 'none';
-         document.getElementById('email-error').style.display = 'none';
-       });
-   });
- 
-   // Función para ocultar todos los mensajes
-   function hideAllMessages() {
-     document.getElementById('sending').style.display = 'none';
-     document.getElementById('success').style.display = 'none';
-     document.getElementById('error').style.display = 'none';
-     document.getElementById('email-error').style.display = 'none';
-   }
- </script>
- 
-    
+  <div class="contact-info">
+      <form id="contact-form">
+          <div class="row">
+              <div class="form-group col-sm-6">
+                  <input type="text" name="from_name" required placeholder="Name*" aria-required="true">
+              </div>
+              <div class="form-group col-sm-6">
+                  <input type="email" name="from_email" required placeholder="Email*" id="email-input">
+              </div>
+              <div class="form-group col-sm-12">
+                  <input type="text" name="subject" placeholder="Subject (Optional)">
+              </div>
+              <div class="form-group col-sm-12">
+                  <textarea name="message" required placeholder="Message*"></textarea>
+              </div>
+              <div class="form-group form-group-message col-sm-12" style="display:none;">
+                  <span id="sending" class="text-primary" style="display:none;">Enviando mensaje...</span>
+                  <span id="success" class="text-primary" style="display:none;">¡Gracias, tu mensaje se ha enviado exitosamente!</span>
+                  <span id="error" class="text-danger" style="display:none;">Lo sentimos, algo salió mal.</span>
+              </div>
+              <div class="col-sm-12">
+                  <button type="submit" class="btn">Contáctame</button>
+              </div>
+          </div>
+      </form>
+
+      <!-- EmailJS script -->
+      <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+      <script>
+          // Inicializar EmailJS
+          emailjs.init("JI-JE_1ckuoN-hiqg"); // Reemplaza con tu Public Key de EmailJS
+
+          document.getElementById('contact-form').addEventListener('submit', function(event) {
+              event.preventDefault();  // Evitar recarga de página
+
+              // Mostrar "Enviando"
+              document.getElementById('sending').style.display = 'block';
+              document.getElementById('success').style.display = 'none';
+              document.getElementById('error').style.display = 'none';
+
+              // Enviar el formulario
+              emailjs.sendForm('PortaFolio', 'Template_Portafolio', this)
+                  .then(function(response) {
+                      console.log("Correo enviado exitosamente:", response);
+                      document.getElementById('sending').style.display = 'none';
+                      document.getElementById('success').style.display = 'block';
+                      setTimeout(function() {
+                          document.getElementById('success').style.display = 'none'; // Ocultar mensaje de éxito después de 5 segundos
+                      }, 5000);
+                      document.getElementById('contact-form').reset(); // Resetear formulario
+                  })
+                  .catch(function(error) {
+                      console.error("Error al enviar correo:", error);
+                      document.getElementById('sending').style.display = 'none';
+                      document.getElementById('error').style.display = 'block';
+                      setTimeout(function() {
+                          document.getElementById('error').style.display = 'none'; // Ocultar mensaje de error después de 5 segundos
+                      }, 5000);
+                  });
+          });
+      </script>
+  </div>
 </div>
+
+
+
+
 </div>
 </div>
 </div>
@@ -454,7 +434,7 @@
 </div>
 </div>
 
-<script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/jquery.min.js"></script>
+<script src="js/jquery.min.js"></script>
 <script src="js/wow.min.js"></script>
 <script src="js/smoothscroll.js"></script>
 <script src="js/animsition.js"></script>
